@@ -8,3 +8,10 @@
 /dataSources.local.xml
 /.idea/
 
+/.
+/.gitignore
+/misc.xml
+/modules.xml
+/Project_5.iml
+/vcs.xml
+/workspace.xml
