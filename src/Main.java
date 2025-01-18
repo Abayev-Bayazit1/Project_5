@@ -1,10 +1,9 @@
-
+import data.PostgreDB;
+import data.interfaces.IDB;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World");
+    IDB db = new PostgreDB("jdbc:postgresql://localhost:5432", "postgres", "0000", "Booking");
+
     }
-
-
-
 }
