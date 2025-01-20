@@ -33,7 +33,6 @@ public class Customer {
         this.surname = surname;
     }
 
-
     @Override
     public String toString() {
         return "Customer: " + "ID: " + id + " " + name + " " + surname;
