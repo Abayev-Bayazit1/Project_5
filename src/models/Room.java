@@ -5,7 +5,7 @@ public class Room {
     private int hotelID;
     private int roomNumber;
     private double price;
-    private Boolean isAvailable;
+    private boolean isAvailable;
     public Room(int id){
         this.id = id;
     }
