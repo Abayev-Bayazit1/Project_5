@@ -6,6 +6,8 @@ public class Room {
     private int roomNumber;
     private double price;
     private boolean isAvailable;
+
+
     public Room(int id){
         this.id = id;
     }
@@ -48,7 +50,7 @@ public class Room {
     }
     @Override
     public String toString() {
-        return "ID: " + id + " HotelID: " + hotelID + " RoomNumber: " + roomNumber + " Price: " + price;
+        return "ID: " + id + " HotelID: " + hotelID + " RoomNumber: " + roomNumber + " Price: " + price + " Available: " + isAvailable;
     }
 
 
