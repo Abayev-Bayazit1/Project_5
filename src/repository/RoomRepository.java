@@ -1,96 +1,122 @@
-package repository;
-import data.interfaces.IDB;
-import models.Hotel;
-import models.Room;
-import repository.interfaces.IRoomRepository;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+    package repository;
+    import data.interfaces.IDB;
+    import models.Hotel;
+    import models.Room;
+    import repository.interfaces.IRoomRepository;
+    import java.sql.Connection;
+    import java.sql.PreparedStatement;
+    import java.sql.ResultSet;
+    import java.sql.SQLException;
+    import java.util.ArrayList;
+    import java.util.List;
 
-public class RoomRepository implements IRoomRepository {
+    public class RoomRepository implements IRoomRepository {
 
-    private IDB db;
+        private IDB db;
 
-    public RoomRepository(IDB db) {
-        this.db = db;
-    }
+        public RoomRepository(IDB db) {
 
-    @Override
-    public boolean addRoom(Room room) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteRoom(int id) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-
-        try {
-            conn = db.getConnection();
-            String sql = "DELETE FROM rooms WHERE id = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            int affectedRows = stmt.executeUpdate();
-            return affectedRows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            this.db = db;
         }
-    }
 
-    @Override
-    public List<Room> getAvailableRooms(int hotelId) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        List<Room> availableRooms = new ArrayList<>();
+        @Override
+        public boolean addRoom(Room room) {
+            Connection conn = db.getConnection();
 
-        try {
-            conn = db.getConnection();
-            String sql = "SELECT id, hotel_id, room_number, price, is_available " +
-                    "FROM rooms WHERE hotel_id = ? AND is_available = TRUE";
-            stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, hotelId);
+            try{
+                conn = db.getConnection();
+                // execute sql request
+                String sql = "INSERT INTO rooms (hotel_id, room_number, price, is_available) VALUES (?, ?, ?, ?)";
+                PreparedStatement ps = conn.prepareStatement(sql);
 
-            try (ResultSet resultSet = stmt.executeQuery()) {
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    int hotelID = resultSet.getInt("hotel_id");
-                    int roomNumber = resultSet.getInt("room_number");
-                    double price = resultSet.getDouble("price");
-                    boolean isAvailable = resultSet.getBoolean("is_available");
+                ps.setInt(1,room.getHotelID());
+                ps.setInt(2, room.getRoomNumber());
+                ps.setDouble(3, room.getPrice());
+                ps.setBoolean(4, room.getIsAvailable());
 
-                    // Создаем объект Room и добавляем его в список
-                    Room room = new Room(id);
-                    room.setHotelID(hotelID);
-                    room.setRoomNumber(roomNumber);
-                    room.setPrice(price);
-                    room.setIsAvailable(isAvailable);
-
-                    availableRooms.add(room);
+                return ps.executeUpdate() > 0;
+            }catch (Exception e){
+                System.out.println("Sql error " + e.getMessage());
+                return false;
+            }finally{
+                try{
+                    if (conn != null){
+                        conn.close();
+                    }
+                }catch (SQLException e){
+                    System.out.println("failed to connection Database " + e.getMessage());
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        }
+
+        @Override
+        public boolean deleteRoom(int id) {
+            Connection conn = null;
+            PreparedStatement stmt = null;
+
             try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                conn = db.getConnection();
+                String sql = "DELETE FROM rooms WHERE id = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, id);
+                int affectedRows = stmt.executeUpdate();
+                return affectedRows > 0;
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("Sql error " + e.getMessage());
+                return false;
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    System.out.println("failed to connection Database " + e.getMessage());
+                }
             }
         }
 
-        return availableRooms;
+        @Override
+        public List<Room> getAvailableRooms(int hotelId) {
+            Connection conn = null;
+            PreparedStatement stmt = null;
+            List<Room> availableRooms = new ArrayList<>();
 
+            try {
+                conn = db.getConnection();
+                String sql = "SELECT id, hotel_id, room_number, price, is_available " +
+                        "FROM rooms WHERE hotel_id = ? AND is_available = TRUE";
+                stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, hotelId);
+
+                try (ResultSet resultSet = stmt.executeQuery()) {
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("id");
+                        int hotelID = resultSet.getInt("hotel_id");
+                        int roomNumber = resultSet.getInt("room_number");
+                        double price = resultSet.getDouble("price");
+                        boolean isAvailable = resultSet.getBoolean("is_available");
+
+                        // Создаем объект Room и добавляем его в список
+                        Room room = new Room(id);
+                        room.setHotelID(hotelID);
+                        room.setRoomNumber(roomNumber);
+                        room.setPrice(price);
+                        room.setIsAvailable(isAvailable);
+
+                        availableRooms.add(room);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Sql error " + e.getMessage());
+            } finally {
+                try {
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    System.out.println("failed to connection Database " + e.getMessage());
+                }
+            }
+
+            return availableRooms;
+
+        }
     }
-}
