@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IBookingController {
 
-    boolean BackRoom(Booking booking);
+    boolean bookRoom(Booking booking);
 
     List<Booking> getBookings();
 

@@ -34,7 +34,6 @@ public class BookingRepository implements IBookingRepository {
             return st.executeUpdate()>0;
 
 
-
         }catch (Exception e){
             System.out.println("SQL error: " + e.getMessage());
         return false;
@@ -109,5 +108,5 @@ public class BookingRepository implements IBookingRepository {
                     System.out.println("failed to close connection: " + e.getMessage());
                 }
             }
-      }
+       }
 }
