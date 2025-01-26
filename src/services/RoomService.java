@@ -2,37 +2,39 @@ package services;
 
 import models.Room;
 import repository.RoomRepository;
-import services.interfaces.IHotelService;
+import services.interfaces.IRoomService;
 import java.util.List;
 
 
 
-public class HotelService implements IHotelService {
+public class RoomService implements IRoomService {
 
     private final RoomRepository RoomRepository;
 
-    public HotelService(RoomRepository RoomRepository) {
+    public RoomService(RoomRepository RoomRepository) {
         this.RoomRepository = RoomRepository;
     }
 
     @Override
-    public void addRoom(Room room) {
+    public boolean addRoom(Room room) {
         boolean added = RoomRepository.addRoom(room);
         if (added) {
             System.out.println("Room added: " + room);
         } else {
             System.out.println("Failed to add room: " + room);
         }
+        return added;
     }
 
     @Override
-    public void deleteRoomById(int id) {
+    public boolean deleteRoomById(int id) {
         boolean deleted = RoomRepository.deleteRoom(id);
         if (deleted) {
             System.out.println("Room with ID " + id + " deleted.");
         } else {
             System.out.println("Room with ID " + id + " not found.");
         }
+        return deleted;
     }
 
     @Override
