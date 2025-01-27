@@ -35,14 +35,14 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public List<Booking> getBookingsByCustomer(int customerid) {
-        if (customerid <=0){ System.out.print("Invalid customer id ");   return List.of();   }
-        List<Booking> bookings = bookingRepository.getBookingsByCustomer(customerid);
+    public List<Booking> getBookingsByCustomer(int customerId) {
+        if (customerId <=0){ System.out.print("Invalid customer id ");   return List.of();   }
+        List<Booking> bookings = bookingRepository.getBookingsByCustomer(customerId);
 
         if (bookings.isEmpty()) {
-            System.out.println("No bookings found for customer ID: " + customerid);
+            System.out.println("No bookings found for customer ID: " + customerId);
         } else {
-            System.out.println("Bookings found for customer ID: " + customerid + " -> " + bookings);
+            System.out.println("Bookings found for customer ID: " + customerId + " -> " + bookings);
         }
 
         return bookings;
