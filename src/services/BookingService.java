@@ -2,15 +2,16 @@ package services;
 
 import models.Booking;
 import repository.BookingRepository;
+import repository.interfaces.IBookingRepository;
 import services.interfaces.IBookingService;
 
 import java.util.List;
 
 public class BookingService implements IBookingService {
 
-    private final BookingRepository bookingRepository;
+    private final IBookingRepository bookingRepository;
 
-    public BookingService(BookingRepository bookingRepository) {
+    public BookingService(IBookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
     }
 

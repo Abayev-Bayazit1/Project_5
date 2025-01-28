@@ -18,6 +18,14 @@ public class Room {
         this.id = id;
     }
 
+    public Room(int id, int hotelID, int roomNumber, double price, boolean isAvailable) {
+        this.id = id;
+        this.hotelID = hotelID;
+        this.roomNumber = roomNumber;
+        this.price = price;
+        this.isAvailable = isAvailable;
+    }
+
     public Room( int hotelID, int roomNumber, double price, Boolean isAvailable) {
         this.hotelID = hotelID;
         this.roomNumber = roomNumber;

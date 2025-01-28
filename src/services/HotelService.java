@@ -1,7 +1,8 @@
-package services.interfaces;
+package services;
 
 import models.Hotel;
 import repository.interfaces.IHotelRepository;
+import services.interfaces.IHotelService;
 
 import java.util.List;
 

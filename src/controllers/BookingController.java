@@ -5,13 +5,14 @@ import controllers.interfaces.IBookingController;
 import models.Booking;
 import repository.BookingRepository;
 import services.BookingService;
+import services.interfaces.IBookingService;
 
 import java.util.List;
 
 public class BookingController implements IBookingController {
-    private final BookingService bookingService;
+    private final IBookingService bookingService;
 
-    public BookingController(BookingService bookingService) {
+    public BookingController(IBookingService bookingService) {
         this.bookingService = bookingService;
     }
 
