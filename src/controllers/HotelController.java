@@ -2,6 +2,7 @@ package controllers;
 
 import controllers.interfaces.IHotelController;
 import models.Hotel;
+import services.HotelService;
 import services.interfaces.IHotelService;
 
 import java.util.List;

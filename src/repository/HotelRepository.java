@@ -51,7 +51,7 @@ public class HotelRepository implements IHotelRepository {
             ResultSet rs = st.executeQuery(sql);
             List<Hotel> hotels = new ArrayList<>();
             while (rs.next()) {
-                Hotel hotel = new Hotel(rs.getInt("id"),rs.getString("name"), rs.getString("address"));
+                Hotel hotel = new Hotel(rs.getInt("hotel_id"),rs.getString("name"), rs.getString("address"));
 
                 hotels.add(hotel);
             }

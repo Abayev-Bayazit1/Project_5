@@ -3,15 +3,16 @@ package controllers;
 import controllers.interfaces.IRoomController;
 import models.Room;
 import services.RoomService;
+import services.interfaces.IRoomService;
 
 import java.util.List;
 
 public class RoomController implements IRoomController{
 
-    private final RoomService roomService;
+    private final IRoomService roomService;
 
 
-public RoomController(RoomService roomService) {
+public RoomController(IRoomService roomService) {
     this.roomService = roomService;
 }
 

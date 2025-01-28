@@ -82,18 +82,18 @@
 
             try {
                 conn = db.getConnection();
-                String sql = "SELECT id, hotel_id, room_number, price, is_available " +
+                String sql = "SELECT room_id, hotel_id, room_number, price, is_available " +
                         "FROM rooms WHERE hotel_id = ? AND is_available = TRUE";
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, hotelId);
 
                 try (ResultSet resultSet = stmt.executeQuery()) {
                     while (resultSet.next()) {
-                        int id = resultSet.getInt("id");
+                        int id = resultSet.getInt("room_id ");
                         int hotelID = resultSet.getInt("hotel_id");
-                        int roomNumber = resultSet.getInt("room_number");
-                        double price = resultSet.getDouble("price");
-                        boolean isAvailable = resultSet.getBoolean("is_available");
+                        int roomNumber = resultSet.getInt("room_number ");
+                        double price = resultSet.getDouble("price ");
+                        boolean isAvailable = resultSet.getBoolean("is_available ");
 
                         // Создаем объект Room и добавляем его в список
                         Room room = new Room(id);

@@ -1,6 +1,9 @@
 import controllers.BookingController;
 import controllers.HotelController;
 import controllers.RoomController;
+import models.Booking;
+import models.Hotel;
+import models.Room;
 
 import javax.xml.transform.Source;
 import java.util.Scanner;
@@ -32,7 +35,106 @@ public class MyApplication {
         System.out.println("0. Exit");
         System.out.println();
         System.out.print("Enter option (1-7): ");
+    }
+
+
+    public void start() {
+        while (true) {
+
+            mainMenu();
+            int option = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (option) {
+                case 1 -> registerHotel();
+                case 2 -> bookRoom();
+                case 3 -> viewBookingHistory();
+                case 4 -> findAvailableRooms();
+                case 5 -> deleteRoom();
+                case 6 -> addRoom();
+                case 7 -> viewAllHotels();
+                case 0 -> {
+                    System.out.println("Exiting application...");
+                    return;
+                }
+                default -> System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    private void registerHotel() {
+        System.out.print("Enter hotel name: ");
+        String hotelName = scanner.nextLine();
+        System.out.print("Enter hotel address: ");
+        String hotelAddress = scanner.nextLine();
+
+        Hotel hotel = new Hotel(0, hotelName, hotelAddress);
+        boolean result = hotelController.addHotel(hotel);
+
+        if (result) {
+            System.out.println("Hotel added successfully!");
+        } else {
+            System.out.println("Failed to add hotel.");
+        }
 
     }
+
+
+    private void bookRoom(){
+        System.out.print("Enter customer ID: ");
+        int customerId = scanner.nextInt();
+        System.out.print("Enter room ID: ");
+        int roomId = scanner.nextInt();
+
+        Booking booking = new Booking(0, roomId, customerId);
+
+        // Вызываем метод контроллера с объектом Booking
+        boolean result = bookingController.bookRoom(booking);
+
+        if (result) {
+            System.out.println("Room booked successfully!");
+        } else {
+            System.out.println("Failed to book room.");
+        }
+    }
+
+    private void viewBookingHistory() {
+        System.out.print("Enter customer ID: ");
+        int customerId = scanner.nextInt();
+        System.out.println(bookingController.getBookingsByCustomer(customerId));
+    }
+
+    private void findAvailableRooms() {
+        System.out.println("Enter hotel ID: ");
+        int hotelId = scanner.nextInt();
+        System.out.println(roomController.getAvailableRooms(hotelId));
+    }
+
+    private void deleteRoom() {
+        System.out.print("Enter room ID to delete: ");
+        int roomId = scanner.nextInt();
+        System.out.println(roomController.deleteRoom(roomId));
+    }
+
+    private void addRoom(){
+        System.out.println("Enter room number: ");
+        int roomNumber = scanner.nextInt();
+        System.out.println("Enter hotel ID: ");
+        int hotelId = scanner.nextInt();
+        System.out.println("Enter room price");
+        double roomPrice = scanner.nextDouble();
+
+        Room room = new Room(0, hotelId, roomNumber, roomPrice, true);
+
+        System.out.println(roomController.addRoom(room));
+    }
+
+
+
+
+    private void viewAllHotels() {
+        System.out.println(hotelController.getAllHotels());
+    }
+
 
 }

@@ -2,6 +2,7 @@ package services;
 
 import models.Room;
 import repository.RoomRepository;
+import repository.interfaces.IRoomRepository;
 import services.interfaces.IRoomService;
 import java.util.List;
 
@@ -9,9 +10,9 @@ import java.util.List;
 
 public class RoomService implements IRoomService {
 
-    private final RoomRepository RoomRepository;
+    private final IRoomRepository RoomRepository;
 
-    public RoomService(RoomRepository RoomRepository) {
+    public RoomService(IRoomRepository RoomRepository) {
         this.RoomRepository = RoomRepository;
     }
 
