@@ -10,7 +10,6 @@ Olzhas Omerzak
 Farida Dovletbayeva
 
 
-
 About project:
 Sphere:Hotel’s business
 Application for booking hotel rooms.
