@@ -35,7 +35,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer: " + "ID: " + id + " " + name + " " + surname;
+        return "|Customer: " + "|ID: " + id + " " + name + " " + surname;
     }
 
 }

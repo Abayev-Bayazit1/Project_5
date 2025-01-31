@@ -58,7 +58,7 @@ public class Room {
     }
     @Override
     public String toString() {
-        return "ID: " + id + " HotelID: " + hotelID + " RoomNumber: " + roomNumber + " Price: " + price + " Available: " + isAvailable;
+        return "ID: " + id + "| HotelID: " + hotelID + "| RoomNumber: " + roomNumber + "| Price: " + price + "| Available: " + isAvailable;
     }
 
 

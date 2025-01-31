@@ -40,22 +40,12 @@ public RoomController(IRoomService roomService) {
 
     @Override
     public List<Room> getAvailableRooms(int hotelId) {
-        if(hotelId <= 0) {
+        if (hotelId <= 0) {
             System.out.println("Invalid hotel ID");
             return List.of();
         }
-        // также дергаем метод с сервисов
-        List<Room> rooms = roomService.getAvailableRooms(hotelId);
 
-        if(rooms.isEmpty()) {
-            System.out.println("No rooms available with hotel ID " + hotelId);
-        }
-
-        else{
-            System.out.println("Available rooms for hotel ID " + hotelId + ": " + rooms);
-        }
-
-        return rooms;
-
+        return roomService.getAvailableRooms(hotelId);
     }
+
 }
