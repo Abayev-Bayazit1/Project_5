@@ -35,11 +35,6 @@ public class HotelService implements IHotelService {
 
     @Override
     public List<Hotel> getAllHotels() {
-        List<Hotel> hotels = hotelRepository.getAllHotels(); // Getting a list of hotels from the repository
-        if (hotels.isEmpty()) { // Check if the list is empty and display the message
-            System.out.println("No hotels found");
-        }
-
-        return hotels;
+        return hotelRepository.getAllHotels();
     }
 }

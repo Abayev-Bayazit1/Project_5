@@ -8,6 +8,7 @@ import models.Room;
 import models.User;
 
 import javax.xml.transform.Source;
+import java.util.List;
 import java.util.Scanner;
 
 public class MyApplication {
@@ -178,10 +179,20 @@ public class MyApplication {
     }
 
     private void findAvailableRooms() {
-        System.out.println("Enter hotel ID: ");
+        System.out.print("Enter hotel ID: ");
         int hotelId = scanner.nextInt();
-        System.out.println(roomController.getAvailableRooms(hotelId));
+        List<Room> availableRooms = roomController.getAvailableRooms(hotelId);
+
+        if (availableRooms.isEmpty()) {
+            System.out.println("No rooms available with hotel ID " + hotelId);
+        } else {
+            System.out.println("Available rooms for hotel ID " + hotelId + ":");
+            for (Room room : availableRooms) {
+                System.out.println(room);
+            }
+        }
     }
+
 
     private void deleteRoom() {
         System.out.print("Enter room ID to delete: ");

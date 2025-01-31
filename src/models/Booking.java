@@ -36,7 +36,7 @@ public class Booking {
 
     @Override
     public String toString(){
-        return "Booking: " + "id: " + id + ", roomId: " + roomId + ", customerId: " + customerId;
+        return "| Booking: " + "| id: " + id + ",| roomId: " + roomId + ",| customerId: " + customerId;
     }
 
 

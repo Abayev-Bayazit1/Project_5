@@ -43,7 +43,7 @@ public class Hotel {
 
     @Override
     public String toString() {
-        return "ID: " +  id  + " Name: " + name + " Address: " + address;
+        return "| ID: " +  id  + "| Name: " + name + "|  Address: " + address;
     }
 
 

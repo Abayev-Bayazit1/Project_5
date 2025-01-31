@@ -37,7 +37,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User: " + "ID: " + id + " " + username + " " + role;
+        return "|User: " + "| ID: " + id + " " + username + " " + role;
     }
 
 }

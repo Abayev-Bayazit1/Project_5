@@ -56,7 +56,7 @@
 
             try {
                 conn = db.getConnection();
-                String sql = "DELETE FROM rooms WHERE id = ?";
+                String sql = "DELETE FROM rooms WHERE room_id = ?";
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, id);
                 int affectedRows = stmt.executeUpdate();

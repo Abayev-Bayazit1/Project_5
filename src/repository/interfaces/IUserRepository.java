@@ -5,7 +5,7 @@ import models.User;
 import repository.UserRepository;
 
 public interface IUserRepository {
-    public User findByUsernameAndPassword(String username, String password);
-    public boolean addUser(User user);
+     User findByUsernameAndPassword(String username, String password);
+     boolean addUser(User user);
 
 }

@@ -40,19 +40,11 @@ public class RoomService implements IRoomService {
 
     @Override
     public List<Room> getAvailableRooms(int hotelId) {
-        if(hotelId <= 0){
+        if (hotelId <= 0) {
             System.out.println("Invalid hotel ID");
-            return null;
+            return List.of();
         }
-
-        List<Room> rooms = RoomRepository.getAvailableRooms(hotelId);
-
-        if (rooms.isEmpty()) {
-            System.out.println("No rooms available for hotel " + hotelId);
-        }else {
-            System.out.println("Available rooms for hotel ID " + hotelId + ": " + rooms);
-        }
-
-        return rooms;
+        return RoomRepository.getAvailableRooms(hotelId);
     }
+
 }
