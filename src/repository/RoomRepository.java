@@ -26,13 +26,14 @@
             try{
                 conn = db.getConnection();
                 // execute sql request
-                String sql = "INSERT INTO rooms (hotel_id, room_number, price, is_available) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO rooms (hotel_id, room_number, price, is_available,category_id) VALUES (?, ?, ?, ?,?)";
                 PreparedStatement ps = conn.prepareStatement(sql);
 
                 ps.setInt(1,room.getHotelID());
                 ps.setInt(2, room.getRoomNumber());
                 ps.setDouble(3, room.getPrice());
                 ps.setBoolean(4, room.getIsAvailable());
+                ps.setInt(5,room.getCategoryId());
 
                 return ps.executeUpdate() > 0;
             }catch (Exception e){
