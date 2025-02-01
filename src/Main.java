@@ -43,7 +43,12 @@ public class Main {
         UserController userController = new UserController(userService);
 
         // Создание и запуск приложения
-        MyApplication app = new MyApplication(hotelController, bookingController, roomController, userController);
+        MyApplication app = new MyApplication(
+                hotelController,
+                bookingController,
+                roomController,
+                userController);
+
         app.start();
 
 
