@@ -1,4 +1,4 @@
-# [Group_Project_Hotel’sBusiness_OOP] (https://github.com/Abayev-Bayazit1/Project_5#)
+# Group_Project_Hotel’sBusiness_OOP
 Hotel Booking System v1.0 - Project Documentation  
 
 GitHub Repository: https://github.com/Abayev-Bayazit1/Project_5  
@@ -6,9 +6,9 @@ GitHub Repository: https://github.com/Abayev-Bayazit1/Project_5
 
 Team Leader: - . Abayev Bayazit  
 Our Team:  
-- . Arslan Zheksenbaev  
-- . Olzhas Omerzak  
-- . Farida Dovletbayeva  
+-  Arslan Zheksenbaev  
+-  Olzhas Omerzak  
+-  Farida Dovletbayeva  
 
 
 About project:
