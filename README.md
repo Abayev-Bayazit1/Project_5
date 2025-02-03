@@ -3,11 +3,11 @@
 GitHub Repository: https://github.com/Abayev-Bayazit1/Project_5  
 
 
-Team Leader:Abayev Bayazit  
+Team Leader: - . Abayev Bayazit  
 Our Team:  
-Arslan Zheksenbaev  
-Olzhas Omerzak  
-Farida Dovletbayeva  
+- . Arslan Zheksenbaev  
+- . Olzhas Omerzak  
+- . Farida Dovletbayeva  
 
 
 About project:  
