@@ -4,8 +4,7 @@ Hotel Booking System v1.0 - Project Documentation
 GitHub Repository: https://github.com/Abayev-Bayazit1/Project_5  
 
 
-Team Leader: 
-- Abayev Bayazit  
+Team Leader: - Abayev Bayazit  
 Our Team:  
 -  Arslan Zheksenbaev  
 -  Olzhas Omerzak  
