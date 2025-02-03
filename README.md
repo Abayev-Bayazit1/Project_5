@@ -1,17 +1,18 @@
- Hotel Booking System v1.0 - Project Documentation  
+# [Group_Project_Hotel’sBusiness_OOP] (https://github.com/Abayev-Bayazit1/Project_5#)
+Hotel Booking System v1.0 - Project Documentation  
 
 GitHub Repository: https://github.com/Abayev-Bayazit1/Project_5  
 
 
-Team Leader:Abayev Bayazit  
+Team Leader: - . Abayev Bayazit  
 Our Team:  
-Arslan Zheksenbaev  
-Olzhas Omerzak  
-Farida Dovletbayeva  
+- . Arslan Zheksenbaev  
+- . Olzhas Omerzak  
+- . Farida Dovletbayeva  
 
 
-About project:  
-Sphere:Hotel’s business  
+About project:
+Sphere: Hotel’s business  
 Application for booking hotel rooms.  
 Creating an application to manage the hotel booking process, allowing users to search for available rooms, book them and track their reservations  
 
