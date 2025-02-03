@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class PostgreDB implements IDB {
+    private static PostgreDB instance;
     private String host;
     private String username;
     private String password;
@@ -19,6 +20,13 @@ public class PostgreDB implements IDB {
         setUsername(username);
         setPassword(password);
         setDbName(DbName);
+    }
+
+    public static synchronized PostgreDB getInstance(String host, String username, String password, String DbName) {
+        if (instance == null) {
+            instance = new PostgreDB(host, username, password, DbName);
+        }
+        return instance;  // Public method to provide access to the instance
     }
 
 @Override
