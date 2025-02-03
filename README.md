@@ -1,4 +1,5 @@
- Hotel Booking System v1.0 - Project Documentation  
+# [Group_Project_Hotel’sBusiness_OOP] (https://github.com/Abayev-Bayazit1/Project_5#)
+Hotel Booking System v1.0 - Project Documentation  
 
 GitHub Repository: https://github.com/Abayev-Bayazit1/Project_5  
 
@@ -10,8 +11,8 @@ Our Team:
 - . Farida Dovletbayeva  
 
 
-About project:  
-Sphere:Hotel’s business  
+About project:
+Sphere: Hotel’s business  
 Application for booking hotel rooms.  
 Creating an application to manage the hotel booking process, allowing users to search for available rooms, book them and track their reservations  
 
