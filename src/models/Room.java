@@ -7,6 +7,7 @@ public class Room {
     private double price;
     private boolean isAvailable;
     private int categoryId;
+    private String categoryName;
 
 
     public Room(int id){
@@ -19,21 +20,17 @@ public class Room {
         this.id = id;
     }
 
-    public Room(int id, int hotelID, int roomNumber, double price, boolean isAvailable, int categoryId) {
+    public Room(int id, int hotelID, int roomNumber, double price, boolean isAvailable, int categoryId, String categoryName) {
         this.id = id;
         this.hotelID = hotelID;
         this.roomNumber = roomNumber;
         this.price = price;
         this.isAvailable = isAvailable;
         this.categoryId = categoryId;
+        this.categoryName = categoryName;
     }
 
-    public Room( int hotelID, int roomNumber, double price, Boolean isAvailable) {
-        this.hotelID = hotelID;
-        this.roomNumber = roomNumber;
-        this.price = price;
-        this.isAvailable = isAvailable;
-    }
+    // Геттеры и сеттеры
 
     public int getHotelID() {
         return hotelID;
@@ -66,6 +63,15 @@ public class Room {
         this.isAvailable = isAvailable;
     }
 
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public int getCategoryId() {
         return categoryId;
     }
@@ -75,10 +81,10 @@ public class Room {
     }
 
 
-
     @Override
     public String toString() {
-        return "ID: " + id + "| HotelID: " + hotelID + "| RoomNumber: " + roomNumber + "| Price: " + price + "| Available: " + isAvailable + "| Category ID: " + categoryId;
+        return "ID: " + id + " | HotelID: " + hotelID + " | Room: " + roomNumber +
+                " | Price: " + price + " | Available: " + isAvailable + " | Category: " + categoryName;
     }
 
 }

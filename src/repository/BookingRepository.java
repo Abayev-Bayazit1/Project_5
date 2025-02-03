@@ -49,29 +49,17 @@ public class BookingRepository implements IBookingRepository {
     }
 
     @Override
-    public boolean deleteBooking(Booking booking) {
-       Connection conn = null;
-
-       try {
-           conn = db.getConnection();
-           String sql = "DELETE FROM bookings WHERE id = ?";
-           PreparedStatement st = conn.prepareStatement(sql);
-           st.setInt(1,booking.getId());
-
-
-           return st.executeUpdate()>0;
-       }catch (Exception e){
-           System.out.println("SQL error: " + e.getMessage());
-           return false;
-       }finally {
-           try{
-               if(conn != null){
-                   conn.close();
-               }
-           }catch (SQLException e){
-               System.out.println("failed to close connection: " + e.getMessage());
-           }
-       }
+    public boolean deleteBookingsByCustomerId(int customerId) {
+        String query = "DELETE FROM bookings WHERE customer_id = ?";
+        try (Connection con = db.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, customerId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
