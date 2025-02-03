@@ -25,15 +25,21 @@ public class BookingRepository implements IBookingRepository {
 
         try{
             connection = db.getConnection();
-            String sql = "INSERT INTO bookings (room_id,customer_id) VALUES (?,?)";
+            String sql = "INSERT INTO bookings (room_id,customer_id) VALUES (?,?) returning id;";
             PreparedStatement st = connection.prepareStatement(sql);
 
             st.setInt(1,booking.getRoomId());
             st.setInt(2,booking.getCustomerId());
 
-            return st.executeUpdate()>0;
+            ResultSet rs = st.executeQuery();
 
+            if (rs.next()) {
+                booking.setId(rs.getInt("id"));
 
+                return true;
+            }
+
+            return false;
         }catch (Exception e){
             System.out.println("SQL error: " + e.getMessage());
         return false;
