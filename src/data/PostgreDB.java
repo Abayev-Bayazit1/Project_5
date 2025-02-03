@@ -26,7 +26,7 @@ public class PostgreDB implements IDB {
         if (instance == null) {
             instance = new PostgreDB(host, username, password, DbName);
         }
-        return instance;  // Public method to provide access to the instance
+        return instance;
     }
 
 @Override
