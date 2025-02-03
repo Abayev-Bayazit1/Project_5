@@ -1,11 +1,6 @@
-import controllers.BookingController;
-import controllers.HotelController;
-import controllers.RoomController;
-import controllers.UserController;
-import models.Booking;
-import models.Hotel;
-import models.Room;
-import models.User;
+import controllers.*;
+import models.*;
+import repository.interfaces.IRoomCategoryRepository;
 
 import javax.xml.transform.Source;
 import java.util.List;
@@ -16,14 +11,21 @@ public class MyApplication {
     private final BookingController bookingController;
     private final RoomController roomController;
     private final UserController userController;
+    private final RoomCategoryController roomCategoryController;
     private final Scanner scanner = new Scanner(System.in);
     private User currentUser;
 
-    public MyApplication(HotelController hotelController, BookingController bookingController, RoomController roomController, UserController userController) {
+    public MyApplication(HotelController hotelController, BookingController bookingController,
+                         RoomController roomController,
+                         UserController userController,
+                         RoomCategoryController roomCategoryController) {
+
         this.hotelController = hotelController;
         this.bookingController = bookingController;
         this.roomController = roomController;
         this.userController = userController;
+        this.roomCategoryController = roomCategoryController;
+
     }
 
     private void login() {
@@ -88,57 +90,70 @@ public class MyApplication {
 
     private void mainMenu() {
         while (true) {
-            System.out.println();
-            System.out.println(" Welcome to the Hotel Booking System ");
+            System.out.println("\nWelcome to the Hotel Booking System");
             System.out.println("Select an option:");
-            System.out.println("1. Register a new hotel");
-            System.out.println("2. Book a room");
-            System.out.println("3. View booking history");
-            System.out.println("4. Find available rooms");
-            System.out.println("5. Delete room");
-            System.out.println("6. Add room");
-            System.out.println("7. View all hotels");
-            System.out.println("0. Exit");
-            System.out.println();
-            System.out.print("Enter option (1-7): ");
 
+            // Общиефункции для всех пользователеуй
+            System.out.println("1. Book a room");
+            System.out.println("2. View booking history");
+            System.out.println("3. Find available rooms");
+            System.out.println("4. View all hotels");
+
+            // Функции только для админа
+            if (currentUser.getRole().equals("admin")) {
+                System.out.println("5. Register a new hotel");
+                System.out.println("6. Add room");
+                System.out.println("7. Delete room");
+                System.out.println("8. Admin Panel");
+            }
+
+            System.out.println("0. Logout");
+
+            System.out.print("\nEnter option: ");
             int option = scanner.nextInt();
             scanner.nextLine();
 
             switch (option) {
-                case 1 -> {
-                    if (currentUser.getRole().equals("admin")) {
-                        registerHotel();
-                    } else {
-                        System.out.println("Access denied: Only admins can register hotels.");
-                    }
-                }
-                case 2 -> bookRoom();
-                case 3 -> viewBookingHistory();
-                case 4 -> findAvailableRooms();
+                case 1 -> bookRoom();
+                case 2 -> viewBookingHistory();
+                case 3 -> findAvailableRooms();
+                case 4 -> viewAllHotels();
+
+                // Проверяем, является ли пользователь админом перед выполнением этих функций
                 case 5 -> {
-                    if (currentUser.getRole().equals("admin")) {
-                        deleteRoom();
-                    } else {
-                        System.out.println("Access denied: Only admins can delete rooms.");
-                    }
+                    if (isAdmin()) registerHotel();
+                    else accessDenied();
                 }
                 case 6 -> {
-                    if (currentUser.getRole().equals("admin")) {
-                        addRoom();
-                    } else {
-                        System.out.println("Access denied: Only admins can add rooms.");
-                    }
+                    if (isAdmin()) addRoom();
+                    else accessDenied();
                 }
-                case 7 -> viewAllHotels();
+                case 7 -> {
+                    if (isAdmin()) deleteRoom();
+                    else accessDenied();
+                }
+                case 8 -> {
+                    if (isAdmin()) adminMenu();
+                    else accessDenied();
+                }
                 case 0 -> {
-                    System.out.println("Exiting application...");
+                    System.out.println("Logging out...");
+                    currentUser = null; // Очищаем текущего пользователя
                     return;
                 }
                 default -> System.out.println("Invalid option. Please try again.");
             }
         }
     }
+
+    private boolean isAdmin() {
+        return currentUser != null && currentUser.getRole().equals("admin");
+    }
+
+    private void accessDenied() {
+        System.out.println("Access denied: You don't have permission to perform this action.");
+    }
+
 
     private void registerHotel() {
         System.out.print("Enter hotel name: ");
@@ -206,15 +221,88 @@ public class MyApplication {
         }
     }
 
-    private void addRoom() {
-        System.out.println("Enter room number: ");
-        int roomNumber = scanner.nextInt();
-        System.out.println("Enter hotel ID: ");
-        int hotelId = scanner.nextInt();
-        System.out.println("Enter room price: ");
-        double roomPrice = scanner.nextDouble();
+    private void adminMenu() {
+        while (true) {
+            System.out.println("\nAdmin Panel:");
+            System.out.println("1. Add Category");
+            System.out.println("2. View Categories");
+            System.out.println("3. Delete All Bookings for a Customer");
+            System.out.println("0. Back");
+            System.out.print("Select an option: ");
 
-        Room room = new Room(0, hotelId, roomNumber, roomPrice, true);
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1 -> addCategory();
+                case 2 -> viewCategories();
+                case 3 -> deleteBookingsByCustomerId();
+                case 0 -> { return; }
+                default -> System.out.println("Invalid option.");
+            }
+        }
+    }
+
+
+    private void addCategory() {
+        System.out.print("Enter category name: ");
+        String name = scanner.nextLine();
+        RoomCategory category = new RoomCategory(0, name);
+
+        boolean added = roomCategoryController.addCategory(category);
+
+        if (added) {
+            System.out.println("Category added successfully.");
+        } else {
+            System.out.println("Failed to add category.");
+        }
+    }
+
+    private void viewCategories() {
+        List<RoomCategory> categories = roomCategoryController.getAllCategories();
+        if (categories.isEmpty()) {
+            System.out.println("No categories found.");
+        } else {
+            System.out.println("\nAvailable Categories:");
+            for (RoomCategory category : categories) {
+                System.out.println("ID: " + category.getId() + " | Name: " + category.getName());
+            }
+        }
+    }
+
+
+    private void addRoom() {
+        if (!isAdmin()) {
+            accessDenied();
+            return;
+        }
+
+        // Показать доступные категории
+        System.out.println("\nAvailable categories:");
+        List<RoomCategory> categories = roomCategoryController.getAllCategories();
+        for (RoomCategory category : categories) {
+            System.out.println(category.getId() + ": " + category.getName());
+        }
+
+        // Ввод данных
+        System.out.print("\nEnter room number: ");
+        int roomNumber = scanner.nextInt();
+        System.out.print("Enter hotel ID: ");
+        int hotelId = scanner.nextInt();
+        System.out.print("Enter room price: ");
+        double roomPrice = scanner.nextDouble();
+        System.out.print("Enter category ID: ");
+        int categoryId = scanner.nextInt();
+
+        // Проверка существования категории
+        boolean categoryExists = categories.stream()
+                .anyMatch(c -> c.getId() == categoryId);
+        if (!categoryExists) {
+            System.out.println("Error: Category ID " + categoryId + " does not exist.");
+            return;
+        }
+
+        Room room = new Room(0, hotelId, roomNumber, roomPrice, true, categoryId, "");
         boolean result = roomController.addRoom(room);
 
         if (result) {
@@ -224,7 +312,35 @@ public class MyApplication {
         }
     }
 
+    private void deleteBookingsByCustomerId() {
+        if (!isAdmin()) {
+            accessDenied();
+            return;
+        }
+
+        System.out.print("Enter Customer ID to delete all bookings: ");
+        int customerId = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Are you sure you want to delete all bookings for Customer ID " + customerId + "? (yes/no): ");
+        String confirmation = scanner.nextLine();
+
+        if (confirmation.equalsIgnoreCase("yes")) {
+            boolean result = bookingController.deleteBookingsByCustomerId(customerId);
+            if (result) {
+                System.out.println("All bookings for Customer ID " + customerId + " have been deleted.");
+            } else {
+                System.out.println("No bookings found or failed to delete.");
+            }
+        } else {
+            System.out.println("Operation canceled.");
+        }
+    }
+
+
     private void viewAllHotels() {
         System.out.println(hotelController.getAllHotels());
     }
+
+
 }

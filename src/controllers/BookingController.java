@@ -35,8 +35,8 @@ public class BookingController implements IBookingController {
     }
 
     @Override
-    public boolean deleteBooking(Booking booking) {
-
-        return bookingService.deletebooking(booking);
+    public boolean deleteBookingsByCustomerId(int customerId) {
+        return bookingService.deleteBookingsByCustomerId(customerId);
     }
+
 }

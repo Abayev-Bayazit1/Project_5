@@ -1,25 +1,11 @@
-import controllers.BookingController;
-import controllers.HotelController;
-import controllers.RoomController;
-import controllers.UserController;
+import controllers.*;
 import data.PostgreDB;
 import data.interfaces.IDB;
-import repository.BookingRepository;
-import repository.HotelRepository;
-import repository.RoomRepository;
-import repository.UserRepository;
-import repository.interfaces.IBookingRepository;
-import repository.interfaces.IHotelRepository;
-import repository.interfaces.IRoomRepository;
-import repository.interfaces.IUserRepository;
-import services.BookingService;
-import services.RoomService;
-import services.HotelService;
-import services.UserService;
-import services.interfaces.IBookingService;
-import services.interfaces.IHotelService;
+import repository.*;
+import repository.interfaces.*;
+import services.*;
+import services.interfaces.*;
 import services.interfaces.IRoomService;
-import services.interfaces.IUserService;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,25 +15,30 @@ public class Main {
         IRoomRepository roomRepository = new RoomRepository(db);
         IBookingRepository bookingRepository = new BookingRepository(db);
         IUserRepository userRepository = new UserRepository(db);
+        IRoomCategoryRepository categoryRepository = new RoomCategoryRepository(db);
 
         // Создание сервисов
         IHotelService hotelService = new HotelService(hotelRepository);
         IRoomService roomService = new RoomService(roomRepository);
         IBookingService bookingService = new BookingService(bookingRepository);
         IUserService userService = new UserService(userRepository);
+        IRoomCategoryService roomCategoryService = new RoomCategoryService(categoryRepository);
 
         // Создание контроллеров
         HotelController hotelController = new HotelController(hotelService);
         RoomController roomController = new RoomController(roomService);
         BookingController bookingController = new BookingController(bookingService);
         UserController userController = new UserController(userService);
+        RoomCategoryController roomCategoryController = new RoomCategoryController(roomCategoryService);
+
 
         // Создание и запуск приложения
         MyApplication app = new MyApplication(
                 hotelController,
                 bookingController,
                 roomController,
-                userController);
+                userController,
+                roomCategoryController);
 
         app.start();
 

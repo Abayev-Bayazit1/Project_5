@@ -25,6 +25,18 @@
 
             try{
                 conn = db.getConnection();
+
+                // Проверяем, существует ли такая категория
+                String categoryCheckSql = "SELECT id FROM room_categories WHERE id = ?";
+                PreparedStatement categoryCheckStmt = conn.prepareStatement(categoryCheckSql);
+                categoryCheckStmt.setInt(1, room.getCategoryId());
+                ResultSet rs = categoryCheckStmt.executeQuery();
+
+                if (!rs.next()) {
+                    System.out.println("Category with ID " + room.getCategoryId() + " does not exist.");
+                    return false;
+                }
+
                 // execute sql request
                 String sql = "INSERT INTO rooms (hotel_id, room_number, price, is_available,category_id) VALUES (?, ?, ?, ?,?)";
                 PreparedStatement ps = conn.prepareStatement(sql);
@@ -83,8 +95,11 @@
 
             try {
                 conn = db.getConnection();
-                String sql = "SELECT room_id, hotel_id, room_number, price, is_available " +
-                        "FROM rooms WHERE hotel_id = ? AND is_available = TRUE";
+                String sql = "SELECT r.room_id, r.hotel_id, r.room_number, r.price, r.is_available, " +
+                        "c.name AS category_name " +
+                        "FROM rooms r " +
+                        "JOIN room_categories c ON r.category_id = c.id " +
+                        "WHERE r.hotel_id = ? AND r.is_available = TRUE";
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, hotelId);
 
@@ -95,29 +110,18 @@
                         int roomNumber = resultSet.getInt("room_number");
                         double price = resultSet.getDouble("price");
                         boolean isAvailable = resultSet.getBoolean("is_available");
+                        String categoryName = resultSet.getString("category_name"); // Получаем название категории
 
-                        // Создаем объект Room и добавляем его в список
-                        Room room = new Room(id);
-                        room.setHotelID(hotelID);
-                        room.setRoomNumber(roomNumber);
-                        room.setPrice(price);
-                        room.setIsAvailable(isAvailable);
+                        Room room = new Room(id, hotelID, roomNumber, price, isAvailable, 0, categoryName);
 
                         availableRooms.add(room);
                     }
                 }
             } catch (SQLException e) {
-                System.out.println("Sql error " + e.getMessage());
+                System.out.println("SQL error: " + e.getMessage());
             } finally {
-                try {
-                    if (stmt != null) stmt.close();
-                    if (conn != null) conn.close();
-                } catch (SQLException e) {
-                    System.out.println("failed to connection Database " + e.getMessage());
-                }
+                // Закрытие соединения
             }
-
             return availableRooms;
-
         }
     }

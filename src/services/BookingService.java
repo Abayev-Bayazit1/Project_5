@@ -23,17 +23,12 @@ public class BookingService implements IBookingService {
 
         return added;
     }
+
     @Override
-    public boolean deletebooking(Booking booking) {
-        if (booking == null || booking.getId() == 0 ){System.out.print ("Invalid data ");return false; }
-        boolean deleted = bookingRepository.deleteBooking(booking);
-        if (deleted) {
-            System.out.println("Booking deleted: " + booking);
-        } else {
-            System.out.println("Failed to delete booking: " + booking);
-        }
-        return deleted;
+    public boolean deleteBookingsByCustomerId(int customerId) {
+        return bookingRepository.deleteBookingsByCustomerId(customerId);
     }
+
 
     @Override
     public List<Booking> getBookingsByCustomer(int customerId) {
