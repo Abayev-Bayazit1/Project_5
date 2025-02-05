@@ -39,6 +39,12 @@ public class RoomService implements IRoomService {
     }
 
     @Override
+    public boolean roomExists(int roomId) {
+
+        return RoomRepository.roomExists(roomId);
+    }
+
+    @Override
     public List<Room> getAvailableRooms(int hotelId) {
         if (hotelId <= 0) {
             System.out.println("Invalid hotel ID");

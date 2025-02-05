@@ -1,6 +1,5 @@
     package repository;
     import data.interfaces.IDB;
-    import models.Hotel;
     import models.Room;
     import repository.interfaces.IRoomRepository;
     import java.sql.Connection;
@@ -12,7 +11,7 @@
 
     public class RoomRepository implements IRoomRepository {
 
-        private IDB db;
+        private final IDB db;
 
         public RoomRepository(IDB db) {
 
@@ -88,6 +87,25 @@
         }
 
         @Override
+        public boolean roomExists(int roomId) {
+            String sql =  "SELECT room_id FROM rooms WHERE room_id = ?";
+
+            try(Connection conn = db.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, roomId);
+
+                try(ResultSet rs = ps.executeQuery()){
+                    return rs.next();
+                }
+
+            }catch (Exception e){
+                System.out.println("Error with room exist method " + e.getMessage());
+                return false;
+            }
+        }
+
+
+        @Override
         public List<Room> getAvailableRooms(int hotelId) {
             Connection conn = null;
             PreparedStatement stmt = null;
@@ -119,9 +137,8 @@
                 }
             } catch (SQLException e) {
                 System.out.println("SQL error: " + e.getMessage());
-            } finally {
-                // Закрытие соединения
             }
+
             return availableRooms;
         }
     }
