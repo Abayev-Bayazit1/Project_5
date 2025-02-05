@@ -11,7 +11,7 @@
 
     public class RoomRepository implements IRoomRepository {
 
-        private IDB db;
+        private final IDB db;
 
         public RoomRepository(IDB db) {
 
@@ -137,9 +137,8 @@
                 }
             } catch (SQLException e) {
                 System.out.println("SQL error: " + e.getMessage());
-            } finally {
-                // Закрытие соединения
             }
+
             return availableRooms;
         }
     }

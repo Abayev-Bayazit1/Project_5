@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoomCategoryRepository implements IRoomCategoryRepository {
-        private IDB db;
+        private final IDB db;
 
         public RoomCategoryRepository(IDB db) {
             this.db = db;
