@@ -6,13 +6,18 @@ import models.Booking;
 import repository.BookingRepository;
 import services.BookingService;
 import services.interfaces.IBookingService;
+import services.RoomService;
+import services.interfaces.IRoomService;
 
 import java.util.List;
 
 public class BookingController implements IBookingController {
     private final IBookingService bookingService;
+    private final IRoomService roomService;
 
-    public BookingController(IBookingService bookingService) {
+
+    public BookingController(IBookingService bookingService, IRoomService roomService) {
+        this.roomService = roomService;
         this.bookingService = bookingService;
     }
 
@@ -24,8 +29,12 @@ public class BookingController implements IBookingController {
             return false;
         }
 
-        return bookingService.addbooking(booking);
+        if(!roomService.roomExists(booking.getRoomId())){
+            System.out.println("Room with ID " + booking.getRoomId() +  " does not exist");
+            return false;
+        }
 
+        return bookingService.addbooking(booking);
     }
 
     @Override

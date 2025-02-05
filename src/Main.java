@@ -9,7 +9,7 @@ import services.interfaces.IRoomService;
 
 public class Main {
     public static void main(String[] args) {
-    IDB db = new PostgreDB("jdbc:postgresql://localhost:5432", "postgres", "0000", "Booking");
+    IDB db = PostgreDB.getInstance("jdbc:postgresql://localhost:5432", "postgres", "0000", "Booking");
         // Создание репозиториев
         IHotelRepository hotelRepository = new HotelRepository(db);
         IRoomRepository roomRepository = new RoomRepository(db);
@@ -27,7 +27,7 @@ public class Main {
         // Создание контроллеров
         HotelController hotelController = new HotelController(hotelService);
         RoomController roomController = new RoomController(roomService);
-        BookingController bookingController = new BookingController(bookingService);
+        BookingController bookingController = new BookingController(bookingService,roomService);
         UserController userController = new UserController(userService);
         RoomCategoryController roomCategoryController = new RoomCategoryController(roomCategoryService);
 
@@ -44,9 +44,12 @@ public class Main {
 
 
         try {
-        db.close();
-    } catch (Exception e) {
-        System.out.println("Error when closing connection " + e.getMessage());
-         }
+            if (db.getConnection() != null && !db.getConnection().isClosed()) {
+                db.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Error when closing connection " + e.getMessage());
+        }
+
     }
 }
