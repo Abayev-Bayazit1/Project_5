@@ -260,13 +260,14 @@ public class MyApplication {
 
     private void viewCategories() {
         List<RoomCategory> categories = roomCategoryController.getAllCategories();
+
         if (categories.isEmpty()) {
-            System.out.println("No categories found.");
+            System.out.println("No categories available.");
         } else {
-            System.out.println("\nAvailable Categories:");
-            for (RoomCategory category : categories) {
-                System.out.println("ID: " + category.getId() + " | Name: " + category.getName());
-            }
+            System.out.println("Available room categories:");
+            categories.forEach(category ->
+                    System.out.println("ID: " + category.getId() + " | Name: " + category.getName())
+            );
         }
     }
 
