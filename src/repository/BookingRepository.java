@@ -25,6 +25,8 @@ public class BookingRepository implements IBookingRepository {
 
         try{
             connection = db.getConnection();
+            connection.setAutoCommit(false);
+
             String sql = "INSERT INTO bookings (room_id,customer_id) VALUES (?,?) returning id;";
             PreparedStatement st = connection.prepareStatement(sql);
 
@@ -36,13 +38,24 @@ public class BookingRepository implements IBookingRepository {
             if (rs.next()) {
                 booking.setId(rs.getInt("id"));
 
+                // апдейдим статус комнаты на false
+                String updateRoomSql = "UPDATE rooms SET is_available = FALSE WHERE room_id = ?";
+                PreparedStatement updateSt = connection.prepareStatement(updateRoomSql);
+                updateSt.setInt(1,booking.getRoomId());
+                updateSt.executeUpdate();
+
+
+                connection.commit();
                 return true;
             }
 
+
+            connection.rollback(); // Откатываем изменения, если не получилось
             return false;
         }catch (Exception e){
             System.out.println("SQL error: " + e.getMessage());
-        return false;
+
+            return false;
         }finally {
             try{
                 if(connection != null){
@@ -53,6 +66,7 @@ public class BookingRepository implements IBookingRepository {
             }
         }
     }
+
 
     @Override
     public boolean deleteBookingsByCustomerId(int customerId) {

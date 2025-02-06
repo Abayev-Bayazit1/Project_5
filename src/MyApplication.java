@@ -281,9 +281,9 @@ public class MyApplication {
         // Показать доступные категории
         System.out.println("\nAvailable categories:");
         List<RoomCategory> categories = roomCategoryController.getAllCategories();
-        for (RoomCategory category : categories) {
-            System.out.println(category.getId() + ": " + category.getName());
-        }
+        categories.forEach(category ->
+                System.out.println("ID: " + category.getId() + " | Name: " + category.getName())
+        );
 
         // Ввод данных
         System.out.print("\nEnter room number: ");
@@ -298,13 +298,24 @@ public class MyApplication {
         // Проверка существования категории
         boolean categoryExists = categories.stream()
                 .anyMatch(c -> c.getId() == categoryId);
+
         if (!categoryExists) {
             System.out.println("Error: Category ID " + categoryId + " does not exist.");
             return;
         }
 
-        Room room = new Room(0, hotelId, roomNumber, roomPrice, true, categoryId, "");
+        //String categoryName = categories.get(categoryId).getName();
+
+        // Получаем название категории
+        String categoryName = categories.stream()
+                .filter(c -> c.getId() == categoryId)
+                .findFirst()
+                .map(RoomCategory::getName)
+                .orElse("Unknown");
+
+        Room room = new Room(0, hotelId, roomNumber, roomPrice, true, categoryId, categoryName);
         boolean result = roomController.addRoom(room);
+
 
         if (result) {
             System.out.println("Room added successfully!");
