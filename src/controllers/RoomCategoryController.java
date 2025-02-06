@@ -17,6 +17,8 @@ public class RoomCategoryController {
         return roomCategoryService.addCategory(category);
     }
 
+    public boolean deleteCategory(RoomCategory category) {return roomCategoryService.deleteCategory(category);}
+
     public List<RoomCategory> getAllCategories() {
         return roomCategoryService.getAllCategories();
     }

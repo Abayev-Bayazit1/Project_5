@@ -19,6 +19,11 @@ public class RoomCategoryService implements IRoomCategoryService {
     }
 
     @Override
+    public boolean deleteCategory(RoomCategory category) {
+        return categoryRepository.deleteCategory(category);
+    }
+
+    @Override
     public List<RoomCategory> getAllCategories() {
         return categoryRepository.getAllCategories();
     }

@@ -20,7 +20,7 @@
 
         @Override
         public boolean addRoom(Room room) {
-            Connection conn = db.getConnection();
+            Connection conn = null;
 
             try{
                 conn = db.getConnection();
@@ -137,6 +137,13 @@
                 }
             } catch (SQLException e) {
                 System.out.println("SQL error: " + e.getMessage());
+            }finally {
+                try{
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (Exception e) {
+                    System.out.println("failed to connection Database " + e.getMessage());
+                }
             }
 
             return availableRooms;

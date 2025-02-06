@@ -227,6 +227,7 @@ public class MyApplication {
             System.out.println("1. Add Category");
             System.out.println("2. View Categories");
             System.out.println("3. Delete All Bookings for a Customer");
+            System.out.println("4. Delete Category");
             System.out.println("0. Back");
             System.out.print("Select an option: ");
 
@@ -237,6 +238,7 @@ public class MyApplication {
                 case 1 -> addCategory();
                 case 2 -> viewCategories();
                 case 3 -> deleteBookingsByCustomerId();
+                case 4 -> deleteCategory();
                 case 0 -> { return; }
                 default -> System.out.println("Invalid option.");
             }
@@ -255,6 +257,20 @@ public class MyApplication {
             System.out.println("Category added successfully.");
         } else {
             System.out.println("Failed to add category.");
+        }
+    }
+
+    private void deleteCategory() {
+        System.out.print("Enter category name to delete: ");
+        String name = scanner.nextLine();
+        RoomCategory category = new RoomCategory(0, name);
+
+        boolean added = roomCategoryController.deleteCategory(category);
+
+        if (added) {
+            System.out.println("Category deleted successfully.");
+        }else {
+            System.out.println("Failed to delete category.");
         }
     }
 
