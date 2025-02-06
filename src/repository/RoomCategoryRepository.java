@@ -33,10 +33,42 @@ public class RoomCategoryRepository implements IRoomCategoryRepository {
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.out.println("SQL error: " + e.getMessage());
-
             return false;
+        }finally {
+            try{
+                if(con != null) con.close();
+            }catch (Exception e){
+                System.out.println("Failed to close connection: " + e.getMessage());
+            }
         }
 
+    }
+
+    @Override
+    public boolean deleteCategory(RoomCategory category) {
+            Connection con = null;
+            PreparedStatement ps = null;
+
+            try{
+                con = db.getConnection();
+                String sql = "DELETE FROM room_categories WHERE name = ?";
+
+                ps = con.prepareStatement(sql);
+                ps.setString(1, category.getName());
+
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Error to delete category: " + e.getMessage());
+
+                return false;
+            }finally{
+                try{
+                    if(ps != null) ps.close();
+                    if(con != null) con.close();
+                } catch (Exception e) {
+                    System.out.println("Failed to close connection: " + e.getMessage());
+                }
+            }
     }
 
     @Override
@@ -64,6 +96,12 @@ public class RoomCategoryRepository implements IRoomCategoryRepository {
                 System.out.println("SQL error: " + e.getMessage());
 
                 return List.of();
+            }finally{
+                try{
+                    if(con != null) con.close();
+                }catch (Exception e) {
+                    System.out.println("Failed to close connection: " + e.getMessage());
+                }
             }
 
         return categories;
