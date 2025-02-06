@@ -98,13 +98,14 @@ public class MyApplication {
             System.out.println("2. View booking history");
             System.out.println("3. Find available rooms");
             System.out.println("4. View all hotels");
+            System.out.println("5. View room categories");
 
             // Функции только для админа
             if (currentUser.getRole().equals("admin")) {
-                System.out.println("5. Register a new hotel");
-                System.out.println("6. Add room");
-                System.out.println("7. Delete room");
-                System.out.println("8. Admin Panel");
+                System.out.println("6. Register a new hotel");
+                System.out.println("7. Add room");
+                System.out.println("8. Delete room");
+                System.out.println("9. Admin Panel");
             }
 
             System.out.println("0. Logout");
@@ -118,21 +119,22 @@ public class MyApplication {
                 case 2 -> viewBookingHistory();
                 case 3 -> findAvailableRooms();
                 case 4 -> viewAllHotels();
+                case 5 -> viewCategories();
 
                 // Проверяем, является ли пользователь админом перед выполнением этих функций
-                case 5 -> {
+                case 6 -> {
                     if (isAdmin()) registerHotel();
                     else accessDenied();
                 }
-                case 6 -> {
+                case 7 -> {
                     if (isAdmin()) addRoom();
                     else accessDenied();
                 }
-                case 7 -> {
+                case 8 -> {
                     if (isAdmin()) deleteRoom();
                     else accessDenied();
                 }
-                case 8 -> {
+                case 9 -> {
                     if (isAdmin()) adminMenu();
                     else accessDenied();
                 }
@@ -260,13 +262,14 @@ public class MyApplication {
 
     private void viewCategories() {
         List<RoomCategory> categories = roomCategoryController.getAllCategories();
+
         if (categories.isEmpty()) {
-            System.out.println("No categories found.");
+            System.out.println("No categories available.");
         } else {
-            System.out.println("\nAvailable Categories:");
-            for (RoomCategory category : categories) {
-                System.out.println("ID: " + category.getId() + " | Name: " + category.getName());
-            }
+            System.out.println("Available room categories:");
+            categories.forEach(category ->
+                    System.out.println("ID: " + category.getId() + " | Name: " + category.getName())
+            );
         }
     }
 
