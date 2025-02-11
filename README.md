@@ -1,5 +1,5 @@
 # Group_Project_Hotel’s_Business_OOP
-Hotel Booking System v1.0 - Project Documentation  
+Hotel Booking System v0.2 - Project Documentation  
 
 GitHub Repository: https://github.com/Abayev-Bayazit1/Project_5  
 
